@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <!-- This file contains definitions of shelves, toolbars, and tools.
+ It should not be hand-edited when it is being used by the application.
+ Note, that two definitions of the same element are not allowed in
+ a single file. -->
+
+  <toolshelf name="rfxo_custom_tab" label="RFXO Custom">
+    <memberTool name="rfx_connect_pts"/>
+    <memberTool name="mifth::sop_mifth_uv_grid"/>
+  </toolshelf>
+
+  <shelfSet name="RFX0_shelf_set" label="RFXO Shelf Set">
+    <memberToolshelf name="rfxo_custom_tab"/>
+    <memberToolshelf name="cloth_dynamics"/>
+    <memberToolshelf name="cloud"/>
+    <memberToolshelf name="deform"/>
+    <memberToolshelf name="games"/>
+    <memberToolshelf name="games_development_toolset"/>
+    <memberToolshelf name="grains"/>
+    <memberToolshelf name="lights_and_cameras"/>
+    <memberToolshelf name="modify"/>
+    <memberToolshelf name="ocean"/>
+    <memberToolshelf name="liquid_dynamics"/>
+    <memberToolshelf name="particles"/>
+    <memberToolshelf name="volume_sourcing_dynamics"/>
+    <memberToolshelf name="pyro_dynamics"/>
+    <memberToolshelf name="rbd_dynamics"/>
+    <memberToolshelf name="solid_dynamics"/>
+    <memberToolshelf name="texture"/>
+    <memberToolshelf name="melting_dynamics"/>
+    <memberToolshelf name="volume"/>
+    <memberToolshelf name="wire_dynamics"/>
+    <memberToolshelf name="polygon"/>
+  </shelfSet>
+
+  <tool name="rfx_connect_pts" label="RFX Connect Pts" icon="SOP_add">
+    <toolMenuContext name="viewer">
+      <contextNetType>SOP</contextNetType>
+    </toolMenuContext>
+    <toolMenuContext name="network">
+      <contextNetType>SOP</contextNetType>
+    </toolMenuContext>
+    <script scriptType="python"><![CDATA[#Connect selected points
+################## Lib imports ##################
+import toolutils
+import sys
+
+################## Get selection ##################
+#Get geometry selection
+geo_sel = toolutils.sceneViewer().selectGeometry()
+#Get selection
+sel = geo_sel.selections()[-1]
+#Get selection node 
+node = geo_sel.nodes()[-1]
+#Get geometry
+geo = node.geometry()
+#Get points
+points = None
+if (sel.selectionType() == hou.geometryType.Points):
+    points = sel.points(geo)
+#Get point numbers
+listpoints = []
+for point in points:
+    listpoints.append(point.number())
+
+################## Warning ##################
+if len(listpoints) < 2 :
+    print "select at least two points"
+    sys.exit()
+
+################## Execution ##################
+#If attrib wrangle exist, use it, else create a new one and add a polyline either case
+if node.name().find('Connect') == 0 and node.type().name() == 'attribwrangle' :
+    attribw = node
+    expression = attribw.parm('snippet').eval()
+    expression += "prim = addprim(0,'polyline');\n"
+else :
+    attribw = node.createOutputNode('attribwrangle','Connect1')
+    #Set Flags
+    attribw.setDisplayFlag(True)
+    attribw.setRenderFlag(True)
+    expression = "int prim = addprim(0,'polyline');\n"
+#Add vertex to primitive by point
+for pt in listpoints :
+    expression += "addvertex(0,prim," + str(pt) + ");\n"
+#Define Vexpression
+attribw.parm("class").set(0)
+attribw.parm('snippet').set(expression)]]></script>
+  </tool>
+</shelfDocument>

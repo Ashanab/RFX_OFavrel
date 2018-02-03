@@ -1,0 +1,14 @@
+attribwrangle/snippet
+    RFXO_Rand_Pt_Delete_Threshold
+    /*Delete x of points with slider*/
+
+    if (rand(@ptnum)< ch('threshold')) {
+    	removepoint(0,@ptnum);
+    }
+
+attribwrangle/snippet
+    RFXO_Ptnum_0-1_ratio
+    /*Take the Pts number and output a value between 0-1 */
+
+    float ratio = @ptnum / float(@numpt-1);
+    
