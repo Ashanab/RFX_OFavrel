@@ -15,17 +15,17 @@ you can do this like so:
 
  Example:
 
-// # HOUDINI PATH
-HOUDINIPATH =  Mydrive:\..\..\yourRepoFolderName;&
+\# HOUDINI PATH
+HOUDINIPATH =  Mydrive:\\..\\..\\yourRepoFolderName;&
 
 
 
 Let's say that you need to scan several folder..
 
 
-// # WITH SEVERAL FOLDER:
-FOO = MyDrive:\..\..\..\..
+\# # WITH SEVERAL FOLDER:
+FOO = MyDrive:\\..\\..\\..\\..
 
-HOUDINI_PATH =  Mydrive:\..\..\yourRepoFolderName;$FOO;&
+HOUDINI_PATH =  Mydrive:\\..\\..\\yourRepoFolderName;$FOO;&
 
 
