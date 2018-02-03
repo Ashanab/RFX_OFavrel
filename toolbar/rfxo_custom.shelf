@@ -12,6 +12,7 @@
 
   <shelfSet name="RFX0_shelf_set" label="RFXO Shelf Set">
     <memberToolshelf name="rfxo_custom_tab"/>
+    <memberToolshelf name="hpaste_shelf"/>
     <memberToolshelf name="cloth_dynamics"/>
     <memberToolshelf name="cloud"/>
     <memberToolshelf name="deform"/>
