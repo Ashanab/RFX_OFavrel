@@ -16,7 +16,6 @@
     <memberToolshelf name="cloth_dynamics"/>
     <memberToolshelf name="cloud"/>
     <memberToolshelf name="deform"/>
-    <memberToolshelf name="games"/>
     <memberToolshelf name="games_development_toolset"/>
     <memberToolshelf name="grains"/>
     <memberToolshelf name="lights_and_cameras"/>
