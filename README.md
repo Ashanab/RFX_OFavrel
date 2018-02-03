@@ -13,9 +13,9 @@ you can do this like so:
 
 
 
-# Example:
+ Example:
 
-# HOUDINI PATH
+// # HOUDINI PATH
 HOUDINIPATH =  Mydrive:\..\..\yourRepoFolderName;&
 
 
@@ -23,7 +23,7 @@ HOUDINIPATH =  Mydrive:\..\..\yourRepoFolderName;&
 Let's say that you need to scan several folder..
 
 
-# WITH SEVERAL FOLDER:
+// # WITH SEVERAL FOLDER:
 FOO = MyDrive:\..\..\..\..
 
 HOUDINI_PATH =  Mydrive:\..\..\yourRepoFolderName;$FOO;&
