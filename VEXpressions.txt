@@ -1,5 +1,5 @@
 attribwrangle/snippet
-    RFXO_Rand_Pt_Delete_Threshold
+    RFXO_Rand_Pt_Delete_Threshold_trololo
     /*Delete x of points with slider*/
 
     if (rand(@ptnum)< ch('threshold')) {
