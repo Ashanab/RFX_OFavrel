@@ -11,4 +11,77 @@ attribwrangle/snippet
     /*Take the Pts number and output a value between 0-1 */
 
     float ratio = @ptnum / float(@numpt-1);
+
+attribwrangle/snippet
+	RFX - Add Point at PrimCenter
+	// add point at the center of each primitive and delete the primitives. Must be RunOver Prim 
+	
+	addpoint(0, @P);
+	removeprim(0, @primnum, 1);
+
+attribwrangle/snippet
+	RFX - 1Unit BBOX
+	// Calculate the size of the Object and Resize it so it can Fit iniside a 1-1-1 Box.
+
+	vector min, max, size;
+	float ratio;
+	getbbox(min, max);
+	size = abs(min-max);
+	ratio = 1 / max(size);
+	@P *= ratio;
     
+attribwrangle/snippet
+	RFX - BBOX Center on and Align
+	// calculate the BoundingBox of the object and center sit it on Zero
+	
+	vector min,max,add;
+	getbbox(0,min,max);
+	add = min-max;
+
+	@P.x -= max.x + add.x * 0.5 ;
+	@P.y -= min.y ;
+	@P.z -= max.z + add.z * 0.5 ;
+	
+	
+	
+attribwrangle/snippet
+	RFX - BBOX Center on Zero
+	// calculate the BoundingBox of the object and center it in Zero	
+	
+	vector cen,dir ;
+	cen = getbbox_center(0);
+	dir = 0 - cen; 
+	@P += dir;
+	
+	
+attribwrangle/snippet
+	RFX - Carve Prims
+	#include <groom.h>
+	// need to to calculate the Perimeter first. So just Add A Measure Sop
+
+	adjustPrimLength(0, @primnum, @perimeter, @perimeter*@dist);
+
+attribwrangle/snippet
+	RFX - Group by Neighbours Count
+	// Check the Number of Neighbour of Each Pts. Create a Group if the Condition is meet
+	if ( neighbourcount( 0, @ptnum ) == chi('count') )
+		setpointgroup ( geoself ( ), chs('name'), @ptnum, 1, 'set' );
+
+
+
+attribwrangle/snippet
+	RFX - Control Copy's Orientation
+	// Create Temp Quaternions based on the local axis of the Copys. Then Qmultipluy it by an @orient attribute which is a also a quaternion (4 value Vector)
+	
+	//An @orient attribute is created. it's Based the Normal of the Template point and an Arbitrary up vector.
+	@orient = quaternion(maketransform(@N, {0,1,0})) ;
+
+	// Three Temp Local Quaternions are created on each local axis (XYZ) and then multiply by a channel to control each rotation individualy.
+	vector4 pitch = quaternion({1,0,0} * radians(ch('pitch'))) ;
+	vector4 yaw   = quaternion({0,1,0} * radians(ch('yaw'))) ;
+	vector4 roll  = quaternion({0,0,1} * radians(ch('roll'))) ;
+
+	//the qmultiply function is then used to add the locals roation to the @orient quaternion.
+	@orient = qmultiply(@orient, pitch) ;
+	@orient = qmultiply(@orient, yaw) ;
+	@orient = qmultiply(@orient, roll) ;
